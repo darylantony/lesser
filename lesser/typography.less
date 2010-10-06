@@ -1,0 +1,33 @@
+/*
+	Typography presets
+	------------------
+*/
+
+::selection 	 {background: rgb(255,255,0);}
+::-moz-selection {background: rgb(255,255,0);}
+
+body, h1, h2, h3, h4, h5, h6 {
+	.font-smoothing();
+	font-family: @font-family;
+}
+
+input, textarea {
+	font-family: @font-family;
+}
+
+/* @group Variations */
+
+.thin-font() {
+	font-weight: 100;
+}
+
+/* @end */
+
+/* @group Sizes */
+
+.larger-font(@factor: 2) {
+	font-size: @font-size * @factor;
+}
+
+/* @end */
+
