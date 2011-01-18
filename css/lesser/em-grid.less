@@ -1,9 +1,42 @@
+/*
 
+    === Layout Grid & Typographic Grid ===
+        
+    Both the layout grid and the typographic grid should be related to the other
+    but they're not the same.
+    
+    @line-height = @font-size * 3 / 2
+    
+    @row-height = @line-height  or
+    @row-height = n x @line-height (where 'n' is a positive integer)
+    
+    @row-gutter = @line-height
+    
+    === Boxes ===
+    
+    == Margins ==
+    
+    Generally:
+    
+    @box-margin: (@row-gutter / 2) (@column-gutter / 2);
+    
+        where @row-gutter = @line-height
+    
+    == Padding ==
+    
+    Generally padding should be 0, and the 'contained' elements use their
+    margins to create the same effect.  If padding is used, especially vertically,
+    it should be a multiple of the type grid @line-height
+    
+    @box-padding: @row-gutter @column-gutter; or 0;
+    
+*/
 
 /* `Development
 ----------------------------------------------------------------------------------------------------*/
 
-#grid {
+#grid, grid {
+
 	position: absolute;
 	left: 50%;
 	margin-left: @columns * @column-width / -2;
@@ -11,11 +44,30 @@
 	z-index: -999;
 	width: @columns * @column-width;
 	opacity: .15;
-	div {
-		.column(1);
-		.row(1);
-		background-color: #cc0000;
-	}
+	layout {
+	    position: absolute;
+	    top: 0;
+	    
+	    /*display: none;*/
+	    div {
+    		.column(1);
+    		.rows(1);
+    		background-color: #ddd;
+    	}
+    }
+    type {
+        position: absolute;
+        top: -1px;
+       
+        width: @columns * @column-width;
+        hr {
+            display: block;
+            /*border-style: solid;
+                        border-width: thin;*/
+            border-color: #00FFFF;
+            margin-bottom: @line-height;
+        }
+    }
 }
 
 /* `Columns
@@ -28,7 +80,6 @@ body {
 .container {
 	.center();
 	width: @columns * @column-width;
-	
 }
  
 .column(@column-span: @columns) {
@@ -37,7 +88,14 @@ body {
 	margin-left: @column-gutter / 2;
 	margin-right: @column-gutter / 2;
 	width: (@column-span - 1) * @column-width + (@column-width - @column-gutter);
+}
 
+.columns(@column-span: @columns) {
+	display: inline;
+	float: left;
+	margin-left: @column-gutter / 2;
+	margin-right: @column-gutter / 2;
+	width: (@column-span - 1) * @column-width + (@column-width - @column-gutter);
 }
 
 .shell() {
@@ -49,6 +107,7 @@ body {
 }
 
 .box(){
+    /* @@@ rename this to 'text-box()' ? */
 	margin-bottom: @row-height;
 }
 
@@ -60,6 +119,17 @@ body {
 .pull(@column-span) {
 	position: relative;
 	left: @column-width * @column-span * -1;
+}
+
+.down(@row-span) {
+	position: relative;
+	top: @row-height * @row-span;
+}
+
+.up(@row-span) {
+	position: relative;
+	/* @@@ should this be 'bottom:' */
+	top: @row-height * @row-span * -1;
 }
 
 .alpha {
@@ -97,8 +167,19 @@ body {
 /* `Rows
 ----------------------------------------------------------------------------------------------------*/
 
-.row(@row-span: 1) {
+.rows(@row-span: 1) {
+    /*
+    One or more rows.
+    */
 	height: (@row-span - 1) * @row-height + (@row-height - @row-gutter);
+	margin-top: @row-gutter / 2;
+	margin-bottom: @row-gutter / 2;
+}
+
+.row() {
+    /*
+    Give the element top and bottom row gutters.
+    */
 	margin-top: @row-gutter / 2;
 	margin-bottom: @row-gutter / 2;
 }
@@ -123,13 +204,36 @@ h1,h2,h3,h4,h5,h6 {  }
 	@line-height-multiplier should be an integer.
 	*/
 	font-size: @font-size * @font-size-multiplier; 
-	line-height: (@line-height-multiplier - 1) * @row-height + (@row-height - @row-gutter); 
-	margin: @row-gutter / 2 0; 
+	line-height: ((@line-height-multiplier - 1) * @row-height) + (@row-height - @row-gutter); 
+	margin: @row-gutter/2 0; 
 	/* margin: 0 0 @row-gutter 0; */	
 }
 ._heading(@font-size-multiplier: 2, @line-height-multiplier: 2) {
 	._block-text(@font-size-multiplier, @line-height-multiplier);
 }
+
+/*
+h1 {
+font-size:3em;
+line-height:1;
+margin-bottom:0.5em;
+}
+h2 {font-size:2em;margin-bottom:0.75em;}
+h3 {
+font-size:1.5em;
+line-height:1;
+margin-bottom:1em;}
+h4 {
+font-size:1.2em;
+line-height:1.25;
+margin-bottom:1.25em;}
+h5 {
+font-size:1em;
+margin-bottom:1.5em;}
+h6 {
+font-size:1em;
+font-weight:bold;}
+*/
 
 h1 { 
 	._heading(2, 2);
@@ -164,9 +268,9 @@ hr {
 -------------------------------------------------------------- */
 
 p { 
-	font-size: @font-size; 
-	margin: 0 0 @row-height; 	
-	line-height: @row-height; 
+	font-size: @font-size;
+	margin: 0 0 @row-height;	
+	line-height: @row-height;
 }
 
 /* Should @column-gutter be used here? */
@@ -204,6 +308,62 @@ tr.even td  { background: #eee; }
 tfoot       { font-style: italic; }
 caption     { background: #eee; }
 
+/* Forms
+-------------------------------------------------------------- */
+
+label {
+    .column(@columns/8);
+    .alpha();
+}
+fieldset {
+    padding: 0 @line-height @line-height @line-height;
+    margin: 0 0 @line-height 0;
+}
+legend {
+    .row();
+}
+
+fieldset, #IE8#HACK {
+    padding-top: @line-height;
+}
+legend, #IE8#HACK {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+select {
+}
+input[type=text], input[type=password], input.text, input.title, textarea, select {
+    margin: @row-gutter 0;
+    height: @line-height;
+    padding: @row-gutter/2 @column-gutter/2;
+}
+
+
+input[type=text], input[type=password], input.text, input.title {
+    width: @columns/4 * @column-width;
+}
+
+.input-title() {
+    font-size: 1.5em;
+}
+
+textarea {
+    width: 76.5%;
+    height: 10em;
+    
+}
+form.inline {
+    line-height: 3em;
+}
+form.inline p {
+    margin-bottom: 0;
+}
+
+.error, .alert, .notice, .success, .info {
+    padding: @row-gutter/2;
+    margin-bottom: @line-height;
+}
 
 /* Misc classes
 -------------------------------------------------------------- */
@@ -233,8 +393,28 @@ caption     { background: #eee; }
 }
 
 /* http://perishablepress.com/press/2009/12/06/new-clearfix-hack */
+
 .clearfix,
 .clearfix:after {
+	clear: both;
+	content: ' ';
+	display: block;
+	font-size: 0;
+	line-height: 0;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+}
+
+.clearfix() {
+	/* 
+	apply this to an :after pseudo element
+	e.g.
+		element:after {
+			.clearfix();
+		}
+	*/
+	
 	clear: both;
 	content: ' ';
 	display: block;

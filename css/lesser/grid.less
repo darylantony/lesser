@@ -1,0 +1,338 @@
+
+
+/* `Development
+----------------------------------------------------------------------------------------------------*/
+
+#grid, grid {
+
+	position: absolute;
+	left: 50%;
+	margin-left: @columns * @column-width / -2;
+
+	z-index: -999;
+	width: @columns * @column-width;
+	opacity: .15;
+	layout {
+	    position: absolute;
+	    top: 0;
+	    
+	    /*display: none;*/
+	    div {
+    		.column(1);
+    		.row(1);
+    		background-color: #ddd;
+    	}
+    }
+    type {
+        position: absolute;
+        top: -1px;
+       
+        width: @columns * @column-width;
+        hr {
+            display: block;
+            /*border-style: solid;
+                        border-width: thin;*/
+            border-color: #00FFFF;
+            margin-bottom: @line-height;
+        }
+    }
+}
+
+/* `Columns
+----------------------------------------------------------------------------------------------------*/
+
+body {
+	min-width: @columns * @column-width;
+}
+
+.container {
+	.center();
+	width: @columns * @column-width;
+	
+}
+ 
+.column(@column-span: @columns) {
+	display: inline;
+	float: left;
+	margin-left: @column-gutter / 2;
+	margin-right: @column-gutter / 2;
+	width: (@column-span - 1) * @column-width + (@column-width - @column-gutter);
+}
+
+.shell() {
+	/* 
+	This is a Grid .column() or .row() that contains 
+	other .column()'s or row()'s.
+	*/
+	margin: 0;
+}
+
+.box(){
+	margin-bottom: @row-height;
+}
+
+.push(@column-span) {
+	position: relative;
+	left: @column-width * @column-span;
+}
+
+.pull(@column-span) {
+	position: relative;
+	left: @column-width * @column-span * -1;
+}
+
+.down(@row-span) {
+	position: relative;
+	top: @row-height * @row-span;
+}
+
+.up(@row-span) {
+	position: relative;
+	/* @@@ should this be 'bottom:' */
+	top: @row-height * @row-span * -1;
+}
+
+
+.alpha {
+	margin-left: 0;
+}
+
+.omega {
+	margin-right: 0;
+}
+
+.first      { margin-left:0; }
+.last       { margin-right:0; }
+.top        { margin-top:0; }
+.bottom     { margin-bottom:0; }
+
+.left {
+	float: left;
+}
+.right {
+	float: right;
+}
+.center {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.prefix(@column-span) {
+	padding-left: @column-width * @column-span;
+}
+
+.suffix(@column-span) {
+	padding-right: @column-width * @column-span;
+}
+
+/* `Rows
+----------------------------------------------------------------------------------------------------*/
+
+.row(@row-span: 1) {
+	height: (@row-span - 1) * @row-height + (@row-height - @row-gutter);
+	margin-top: @row-gutter / 2;
+	margin-bottom: @row-gutter / 2;
+}
+
+.rows() {
+	margin-top: @row-gutter / 2;
+	margin-bottom: @row-gutter / 2;
+}
+
+/* `Typography
+----------------------------------------------------------------------------------------------------*/
+
+html { font-size:100.01%; }
+body {
+  font-size: @font-size;
+  line-height: @row-height;
+}
+
+
+/* Headings
+-------------------------------------------------------------- */
+
+h1,h2,h3,h4,h5,h6 {  }
+
+._block-text(@font-size-multiplier: 2, @line-height-multiplier: 2) {
+	/*
+	@line-height-multiplier should be an integer.
+	*/
+	font-size: @font-size * @font-size-multiplier; 
+	line-height: ((@line-height-multiplier - 1) * @row-height) + (@row-height - @row-gutter); 
+	margin: @row-gutter/2 0; 
+	/* margin: 0 0 @row-gutter 0; */	
+}
+._heading(@font-size-multiplier: 2, @line-height-multiplier: 2) {
+	._block-text(@font-size-multiplier, @line-height-multiplier);
+}
+
+/*
+h1 {
+font-size:3em;
+line-height:1;
+margin-bottom:0.5em;
+}
+h2 {font-size:2em;margin-bottom:0.75em;}
+h3 {
+font-size:1.5em;
+line-height:1;
+margin-bottom:1em;}
+h4 {
+font-size:1.2em;
+line-height:1.25;
+margin-bottom:1.25em;}
+h5 {
+font-size:1em;
+margin-bottom:1.5em;}
+h6 {
+font-size:1em;
+font-weight:bold;}
+*/
+
+h1 { 
+	._heading(2, 2);
+}
+h2 { 
+	._heading(1.5, 2);
+}
+h3 { 
+	._heading(1.2, 2);
+}
+h4 { 
+	._heading(1.1, 2);
+}
+h5 { 
+	._heading(1, 2);
+}
+h6 { 
+	._heading(.9, 1);
+}
+
+h1 img, h2 img, h3 img,
+h4 img, h5 img, h6 img {
+  margin: 0;
+}
+
+hr {
+	height: 0;
+	margin: 0;
+}
+
+/* Text elements
+-------------------------------------------------------------- */
+
+p { 
+	font-size: @font-size; 
+	margin: 0 0 @row-height; 	
+	line-height: @row-height; 
+}
+
+/* Should @column-gutter be used here? */
+p img.left  { float: left; margin: @row-height @column-gutter @row-height 0; padding: 0; }
+p img.right { float: right; margin: @row-height 0 @column-gutter @row-height; }
+
+blockquote  { margin: @row-height; 	line-height: @row-height; }
+
+address     { margin: 0 0 @row-height; }
+
+pre         { margin: @row-height 0; white-space: pre; }
+pre,code,tt { font: @font-size 'andale mono', 'lucida console', monospace; line-height: @row-height; }
+
+
+/* Lists
+-------------------------------------------------------------- */
+
+li ul,
+li ol       { margin: 0; }
+ul, ol      { margin: 0 @column-gutter @row-height 0; padding-left: @column-gutter * 2; }
+
+dl          { margin: 0 0 @row-height 0; }
+dd          { margin-left: @column-gutter * 2;}
+
+/* Tables
+-------------------------------------------------------------- */
+
+
+/* @@@ move this to tables.less - especially non-grid stuff */
+table       { margin-bottom: @row-height; width:100%; }
+th          { font-weight: bold; }
+thead th    { background: #c3d9ff; }
+th,td,caption { padding: @row-gutter / 2 @column-gutter / 2; }
+tr.even td  { background: #eee; }
+tfoot       { font-style: italic; }
+caption     { background: #eee; }
+
+
+/* Misc classes
+-------------------------------------------------------------- */
+
+.small      { 
+	font-size: @font-size * .9; 
+	margin-bottom: @row-height; 
+	line-height: @row-height;
+}
+.large      {
+	._block-text(1.5, 2); 
+}
+
+
+/* `Clear Floated Elements
+----------------------------------------------------------------------------------------------------*/
+
+/* http://sonspring.com/journal/clearing-floats */
+
+.clear {
+	clear: both;
+	display: block;
+	overflow: hidden;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+}
+
+/* http://perishablepress.com/press/2009/12/06/new-clearfix-hack */
+
+.clearfix,
+.clearfix:after {
+	clear: both;
+	content: ' ';
+	display: block;
+	font-size: 0;
+	line-height: 0;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+}
+
+.clearfix() {
+	/* 
+	apply this to an :after pseudo element
+	e.g.
+		element:after {
+			.clearfix();
+		}
+	*/
+	
+	clear: both;
+	content: ' ';
+	display: block;
+	font-size: 0;
+	line-height: 0;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+}
+
+
+/*
+	The following zoom:1 rule is specifically for IE6 + IE7.
+	Move to separate stylesheet if invalid CSS is a problem.
+*/
+
+* html .clearfix,
+*:first-child+html .clearfix {
+	zoom: 1;
+}
+
+

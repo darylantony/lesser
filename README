@@ -1,1 +1,15 @@
 A CSS Grid Framework built on less.js
+
+ln -s ~/Dropbox/CommonCreative/WebApps/Lesser/css/lesser ~/Dropbox/CommonCreative/WebApps/Pinax/pinax/pinax/media/design_five/css/lesser
+ln -s ~/Dropbox/CommonCreative/WebApps/Lesser/js/lesser ~/Dropbox/CommonCreative/WebApps/Pinax/pinax/pinax/media/design_five/js/lesser
+
+grid.js
+=======
+
+h1. grid.js
+
+grid.js is a cheeky bit of javascript that does some silly laying out of <div>'s and <hr>'s to achieve an underlaying grid for the purpose of aiding design..
+
+Currently it's made up of only divs, with appropriate margins and paddings set in grid.less to demonstrate the horizontal and vertical grid of the 'lesser framework'.
+
+On the roadmap is to make it a little smarter, by making use of a combination of div's and hr's, rather than the 'blurt' of hundreds of only divs, to achieve a similar effect -- perhaps a little more informative and useful.

@@ -1,0 +1,365 @@
+/* @group Navigation */
+
+/* @group Tabs */
+
+.tabs(
+    @active-bg: #fff,
+    @link-bg: #ddd,
+    @hover-bg: #eee,
+    
+    @active-color: #333,
+    @link-color: #333,
+    @hover-color: #333,
+
+    ) {
+    
+    /* attached to <nav> in:
+        <nav>
+            <ul>
+                <li>...
+    */
+    
+    padding: 0;
+    
+    ul {
+        position: relative;
+        float: left;
+        display: block;
+        margin: 0;
+        padding: 0;
+        
+        li.parent {
+
+		}
+        
+      	li.parent > a:after {
+			position: relative;
+			top: 0px;
+			left: 8px ;
+			content: "";
+            /*.css-arrow-right();*/
+            .css-arrow-down(); /* @@@ leave this 'down' for now -- 'till I get it right */
+            z-index: 999;
+            width: 0px;
+        }
+        
+        li.parent > a:hover:after {
+			position: relative;
+			top: 0px;
+			left: 8px ;
+			content: "";
+            .css-arrow-down();
+            z-index: 999;
+            width: 0px;
+        }
+        
+        li.parent > a:before {
+			position: relative;			
+			content: "|";
+			font-weight: 200;
+			right: -43px;
+            z-index: 999;
+        }
+        
+        li  {
+            display : inline;
+            float: left;
+            list-style-type : none;
+            margin : 0 @column-gutter 0 0;
+            padding : 0;
+            
+            /* sub nav */
+            
+            
+            /*ul:after {
+                            content: "•";
+                            position: absolute;
+                            top: -10px;
+                            right: 0px;
+                            display: inline;
+                        }*/
+            
+        
+                      
+            ul {
+                
+                position: absolute;
+                background-color: #333;
+                width: 10em;
+                left: -999em;
+                z-index: 9999;
+                /*position: absolute;
+                 /*# (@row-gutter * 2) + @row-height;*/
+                
+                top: 37px;
+                
+                li {
+                    background: @link-bg;
+                    display: inline;
+                    float: left;
+                    clear: left;
+                    margin: 0;
+                    a {
+                        width: 8em;
+                    }
+                }
+                li:last-child {
+                    .rounded-bottom(3px);
+                    a {
+                        .rounded-bottom(3px);
+                    }
+                }
+                li:hover {
+                    background: @hover-bg;
+                    
+                }
+                
+            }
+        }
+        li:hover ul, li.sfhover ul { 
+            /* lists nested under hovered list items */
+            left: auto;
+        }  
+        
+        
+      
+    }
+    
+    a {
+        margin: 0;
+        border: 2px;
+        padding: @row-gutter @column-gutter;
+    }
+        
+    a:link, a:visited   {
+        background: @link-bg;
+        color: @link-color;
+        float : left;
+        text-decoration : none;
+    }
+    
+    a:link.active, a:visited.active {
+        background : @active-bg;
+        
+        border-bottom : 1px solid #fff;
+        color : @active-color;
+    }
+    
+    a:hover {
+        background : @hover-bg;
+        color : @hover-color;
+        text-decoration: underline;
+    }
+    
+    li.greyed {
+        a {
+            background-color: #ccc;
+            color: #eee;
+        }
+        a:hover {
+            background-color: #ccc;
+            color: #eee;
+            text-decoration: none;
+        }
+    }
+}
+
+/* @end */
+
+/* @group List */
+
+.flatlist(@separator: '') {
+    list-style: none;
+    padding: 0;
+    li {
+        display: inline;
+    }
+    li:after {
+        content: @separator;
+    }
+    li:last-child:after {
+        display: none;
+    }
+}
+
+/* @end */
+
+
+
+/* @end */
+
+/* @group Borders */
+
+.border(@stroke: 1px, @style: solid, @color: #ddd){
+    border: @stroke @style @color;
+}
+
+.border-top() {
+    .border();
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+}
+
+.border-bottom() {
+    .border();
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+.border-left() {
+    .border();
+    border-top: none;
+    border-bottom: none;
+    border-right: none;
+}
+
+.border-right() {
+    .border();
+    border-top: none;
+    border-bottom: none;
+    border-left: none;
+}
+
+/* @end */
+
+/* @group Corners */
+
+/* @group Rounded */
+
+.rounded(@radius: 5px) {
+    -webkit-border-radius: @radius;
+    -moz-border-radius: @radius;
+    -o-border-radius: @radius;
+    border-radius: @radius;
+}
+
+.rounded-top(@left-radius: 5px, @right-radius: 5px) {
+    .rounded-top-left(@left-radius);
+    .rounded-top-right(@right-radius);
+}
+
+.rounded-bottom(@left-radius: 5px, @right-radius: 5px) {
+    .rounded-bottom-left(@left-radius);
+    .rounded-bottom-right(@right-radius);
+}
+
+.rounded-left(@top-left-radius: 5px, @bottom-left-radius: 5px) {
+    .rounded-top-left(@top-left-radius);
+    .rounded-bottom-left(@bottom-left-radius);
+}
+
+.rounded-right(@top-right-radius: 5px, @bottom-right-radius: 5px) {
+    .rounded-top-right(@top-right-radius);
+    .rounded-bottom-right(@bottom-right-radius);
+}
+
+.rounded-top-left(@radius: 5px) {
+    -webkit-border-top-left-radius: @radius;
+    -moz-border-radius-topleft: @radius;
+    border-top-left-radius: @radius;
+}
+
+.rounded-top-right(@radius: 5px) {
+    -webkit-border-top-right-radius: @radius;
+    -moz-border-radius-topright: @radius;
+    border-top-right-radius: @radius;
+}
+
+.rounded-bottom-left(@radius: 5px) {
+    -webkit-border-bottom-left-radius: @radius;
+    -moz-border-radius-bottomleft: @radius;
+    border-bottom-left-radius: @radius;
+}
+
+.rounded-bottom-right(@radius: 5px) {
+    -webkit-border-bottom-right-radius: @radius;
+    -moz-border-radius-bottomright: @radius;
+    border-bottom-right-radius: @radius;
+}
+
+/* @end */
+
+/* @end */
+
+/* @group Buttons */
+
+/* @group Apple */
+
+/* @end */
+
+/* @end */
+
+/* @group Typography */
+
+.font-smoothing() {
+    -webkit-font-smoothing: antialiased;
+    -moz-font-smoothing: antialiased;
+    -o-font-smoothing: antialiased;
+    font-smoothing: always 5px;
+}
+
+/* @group Utility Classes */
+
+.hide       { display: none; }
+.show       { display: inherit; }
+.quiet      { color: #666; }
+.loud       { color: #000; }
+.highlight  { background:#ff0; }
+.added      { background:#060; color: #fff; }
+.removed    { background:#900; color: #fff; }
+
+/* @end */
+
+/* @end */
+
+/* @group CSS Graphics */
+
+/* @group Arrows */
+
+/* @@@ add configurable heights & widths; @@@ center the 'registration point' */
+
+.css-arrow-left() {
+	border-color:transparent #333333 transparent transparent;
+	border-style:solid;
+	border-width:10px 20px 10px 0;
+	display: inline-block;
+	height:0;
+	width:0;
+}
+
+.css-arrow-down() {
+	border-color:#333333 transparent transparent;
+	border-style:solid;
+	border-width:5px 5px 0;
+	display: inline-block;
+	height:0;
+	width:0;
+}
+
+.css-arrow-up() {
+	border-color:transparent transparent #333333;
+	border-style:solid;
+	border-width:0 5px 5px;
+	display: inline-block;
+	height:0;
+	width:0;
+}
+
+.css-arrow-right() {
+	border-color: transparent transparent transparent #333333;
+	border-style: solid;
+	border-width: 5px 0px 5px 5px;
+	display: inline-block;
+	height:0;
+	width:0;
+}
+
+
+/* @end */
+
+
+
+/* @end */
+
